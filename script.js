@@ -2,6 +2,40 @@
    script.js — David Marez Landing Page
 ══════════════════════════════════════════ */
 
+// ── FIRESTORE CONFIG ─────────────────────
+// Reemplaza con los valores de tu proyecto Firebase
+const FIREBASE_CONFIG = {
+  apiKey:            "AIzaSyAxARpRcHMLR2chUkW9GvbaWFWRut6MSYY",
+  authDomain:        "davidmarez-b0756.firebaseapp.com",
+  projectId:         "davidmarez-b0756",
+  storageBucket:     "davidmarez-b0756.firebasestorage.app",
+  messagingSenderId: "964387953297",
+  appId:             "1:964387953297:web:65c424baee8bf028dd7d30",
+  measurementId:     "G-4L13GLDBN4"
+};
+
+let _db = null;
+async function getDb() {
+  if (_db) return _db;
+  const { initializeApp, getApps } = await import('https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js');
+  const { getFirestore, collection, addDoc, getDocs, orderBy, query, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js');
+  const app = getApps().length ? getApps()[0] : initializeApp(FIREBASE_CONFIG);
+  _db = { db: getFirestore(app), collection, addDoc, getDocs, orderBy, query, serverTimestamp };
+  return _db;
+}
+
+async function saveLeadToFirestore(data) {
+  const { db, collection, addDoc, serverTimestamp } = await getDb();
+  await addDoc(collection(db, 'leads'), { ...data, creadoEn: serverTimestamp() });
+}
+
+async function getLeadsFromFirestore() {
+  const { db, collection, getDocs, query, orderBy } = await getDb();
+  const q = query(collection(db, 'leads'), orderBy('creadoEn', 'desc'));
+  const snap = await getDocs(q);
+  return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+}
+
 // ── NAV SCROLL ──────────────────────────
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
@@ -187,14 +221,11 @@ function submitForm() {
   mfData.email   = email;
   mfData.decision = document.querySelector('input[name="decision"]:checked')?.value || '';
 
-  console.log('Form data:', mfData); // Replace with actual API call
-
-  setTimeout(() => {
-    closeModal();
-    showToast();
-    btn.textContent = 'Enviar solicitud →';
-    btn.disabled = false;
-  }, 1400);
+  // Guardar en Firestore
+  saveLeadToFirestore(mfData)
+    .then(() => { closeModal(); showToast(); })
+    .catch(() => { closeModal(); showToast(); })
+    .finally(() => { btn.textContent = 'Enviar solicitud →'; btn.disabled = false; });
 }
 
 
@@ -396,6 +427,167 @@ window.addEventListener('DOMContentLoaded', () => {
   if (testVideo) testObs.observe(testVideo);
 });
 
+
+
+// ══════════════════════════════════════════
+//  ADMIN — Login + Dashboard + PDF
+// ══════════════════════════════════════════
+const ADMIN_USER = 'luis';
+const ADMIN_PASS = 'davidmarez2026';
+let adminAuthenticated = false;
+
+function openAdminLogin() {
+  document.getElementById('adminLoginModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('adminLoginError').style.display = 'none';
+  document.getElementById('adminUser').value = '';
+  document.getElementById('adminPass').value = '';
+}
+
+function closeAdminLogin() {
+  document.getElementById('adminLoginModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function adminLogin() {
+  const user = document.getElementById('adminUser').value.trim();
+  const pass = document.getElementById('adminPass').value.trim();
+  const err  = document.getElementById('adminLoginError');
+  if (user === ADMIN_USER && pass === ADMIN_PASS) {
+    adminAuthenticated = true;
+    closeAdminLogin();
+    openAdminDashboard();
+  } else {
+    err.style.display = 'block';
+    err.textContent = 'Usuario o contraseña incorrectos.';
+  }
+}
+
+async function openAdminDashboard() {
+  if (!adminAuthenticated) { openAdminLogin(); return; }
+  const modal = document.getElementById('adminDashModal');
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  const body = document.getElementById('adminDashBody');
+  body.innerHTML = '<p style="text-align:center;opacity:.6;padding:2rem">Cargando leads...</p>';
+  try {
+    const leads = await getLeadsFromFirestore();
+    renderLeadsTable(leads);
+  } catch(e) {
+    body.innerHTML = '<p style="color:#f87171;text-align:center;padding:2rem">Error al cargar datos. Revisa la configuración de Firebase.</p>';
+  }
+}
+
+function closeAdminDash() {
+  document.getElementById('adminDashModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function renderLeadsTable(leads) {
+  const body = document.getElementById('adminDashBody');
+  if (!leads.length) {
+    body.innerHTML = '<p style="text-align:center;opacity:.6;padding:2rem">No hay leads aún.</p>';
+    return;
+  }
+  const rows = leads.map((l, i) => {
+    const fecha = l.creadoEn?.toDate ? l.creadoEn.toDate().toLocaleString('es-CO') : '—';
+    return `<tr>
+      <td>${i+1}</td>
+      <td>${l.nombre || '—'}</td>
+      <td>${l.ig || '—'}</td>
+      <td>${l.wa || '—'}</td>
+      <td>${l.email || '—'}</td>
+      <td>${l.industria || '—'}</td>
+      <td>${l.reto || '—'}</td>
+      <td>${l.facturacion || '—'}</td>
+      <td>${l.inversion ? '$'+parseInt(l.inversion).toLocaleString() : '—'}</td>
+      <td>${l.decision || '—'}</td>
+      <td>${fecha}</td>
+    </tr>`;
+  }).join('');
+
+  body.innerHTML = `
+    <div style="overflow-x:auto">
+      <table id="leadsTable" style="width:100%;border-collapse:collapse;font-size:0.8rem">
+        <thead>
+          <tr style="background:rgba(79,142,247,0.15);text-align:left">
+            <th>#</th><th>Nombre</th><th>Instagram</th><th>WhatsApp</th>
+            <th>Email</th><th>Industria</th><th>Reto</th><th>Facturación</th>
+            <th>Inversión</th><th>Decisión</th><th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+    <p style="margin-top:1rem;opacity:.5;font-size:0.75rem">${leads.length} lead(s) en total</p>
+  `;
+
+  // guardar leads para el PDF
+  window._adminLeads = leads;
+}
+
+async function downloadLeadsPDF() {
+  const leads = window._adminLeads;
+  if (!leads || !leads.length) { alert('No hay datos para exportar.'); return; }
+
+  // Cargar jsPDF dinámicamente
+  if (!window.jspdf) {
+    await new Promise((res, rej) => {
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+      s.onload = res; s.onerror = rej;
+      document.head.appendChild(s);
+    });
+    await new Promise((res, rej) => {
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js';
+      s.onload = res; s.onerror = rej;
+      document.head.appendChild(s);
+    });
+  }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+
+  // Header
+  doc.setFillColor(15, 23, 42);
+  doc.rect(0, 0, 297, 22, 'F');
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(14);
+  doc.setFont('helvetica', 'bold');
+  doc.text('David Marez — Leads de Asesoría', 14, 14);
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'normal');
+  doc.text('Generado: ' + new Date().toLocaleString('es-CO'), 220, 14);
+
+  // Tabla
+  doc.autoTable({
+    startY: 26,
+    head: [['#','Nombre','Instagram','WhatsApp','Email','Industria','Reto','Facturación','Inversión','Decisión','Fecha']],
+    body: leads.map((l, i) => {
+      const fecha = l.creadoEn?.toDate ? l.creadoEn.toDate().toLocaleString('es-CO') : '—';
+      return [
+        i+1, l.nombre||'—', l.ig||'—', l.wa||'—', l.email||'—',
+        l.industria||'—', l.reto||'—', l.facturacion||'—',
+        l.inversion ? '$'+parseInt(l.inversion).toLocaleString() : '—',
+        l.decision||'—', fecha
+      ];
+    }),
+    styles: { fontSize: 7.5, cellPadding: 3 },
+    headStyles: { fillColor: [79, 142, 247], textColor: 255, fontStyle: 'bold' },
+    alternateRowStyles: { fillColor: [245, 247, 252] },
+    margin: { left: 14, right: 14 },
+  });
+
+  doc.save('leads-davidmarez-' + new Date().toISOString().slice(0,10) + '.pdf');
+}
+
+window.openAdminLogin     = openAdminLogin;
+window.closeAdminLogin    = closeAdminLogin;
+window.adminLogin         = adminLogin;
+window.openAdminDashboard = openAdminDashboard;
+window.closeAdminDash     = closeAdminDash;
+window.downloadLeadsPDF   = downloadLeadsPDF;
 
 // ── EXPOSE GLOBALS ───────────────────────
 window.openModal         = openModal;

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>David Marez · Marketing &amp; Asesoría para Redes Sociales</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Cormorant+Garamond:ital,wght@1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a class="nav__logo" href="#">David<span>Marez</span></a>
+      <ul class="nav__links">
+        <li><a href="#marketing">Marketing</a></li>
+        <li><a href="#testimonio">Testimonio</a></li>
+        <li><a href="#casos">Casos Reales</a></li>
+        <li><a href="#asesoria">La Asesoría</a></li>
+      </ul>
+      <button class="btn btn--primary nav__cta" onclick="openModal()">Quiero trabajar con David</button>
+      <button class="nav__burger" id="navBurger" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav__mobile" id="navMobile">
+      <a href="#marketing" onclick="closeMobileNav()">Marketing</a>
+      <a href="#testimonio" onclick="closeMobileNav()">Testimonio</a>
+      <a href="#casos" onclick="closeMobileNav()">Casos Reales</a>
+      <a href="#asesoria" onclick="closeMobileNav()">La Asesoría</a>
+      <a href="#faq" onclick="closeMobileNav()">FAQ</a>
+      <button class="btn btn--primary" onclick="closeMobileNav();openModal()">Reservar lugar →</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" id="hero">
+    <div class="hero__bg"></div>
+    <div class="hero__img-bg" id="heroBgImg"></div>
+    <div class="container hero__content">
+      <div class="hero__pill"><em>Marketing &amp; Asesoría 1 a 1 con David</em></div>
+      <p class="hero__date">Virtual · Meet o Zoom</p>
+      <h1 class="hero__headline">
+        Aprende a crecer en redes,<br />
+        vender más y escalar<br />
+        <span>tu negocio con claridad.</span>
+      </h1>
+      <div class="hero__vsl">
+        <iframe
+          id="heroVideo"
+          src="https://www.youtube.com/embed/0yJ_XBO3AQg?autoplay=1&mute=1&loop=1&playlist=0yJ_XBO3AQg&controls=0&showinfo=0&modestbranding=1"
+          frameborder="0"
+          allow="autoplay; encrypted-media"
+          allowfullscreen
+          style="width:100%; height:100%; border-radius: inherit;">
+        </iframe>
+      </div>
+      <div class="hero__actions">
+        <button class="btn btn--primary btn--lg" onclick="openModal()">Quiero trabajar con David →</button>
+        <a class="hero__scroll-link" href="#marketing">Ver los servicios ↓</a>
+      </div>
+      <div class="hero__trust"></div>
+    </div>
+  </header>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="container stats__grid">
+      <div class="stat" data-animate>
+        <strong>2 clases</strong>
+        <span>virtuales 1 a 1 con David</span>
+      </div>
+      <div class="stat" data-animate>
+        <strong>130K+</strong>
+        <span>seguidores logrados con el método</span>
+      </div>
+      <div class="stat" data-animate>
+        <strong>Bonus 🎁</strong>
+        <span>curso con ~5 clases extra incluido</span>
+      </div>
+      <div class="stat" data-animate>
+        <strong>100%</strong>
+        <span>virtual · Meet o Zoom</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA URGENCIA -->
+  <div class="urgency-bar" data-animate>
+    <div class="container urgency-bar__inner">
+      <span>⚡ Los cupos para asesoría se están agotando — <strong>Quedan solo 4 lugares.</strong></span>
+      <button class="btn btn--sm btn--white-outline" onclick="openModal()">Reservar ahora →</button>
+    </div>
+  </div>
+
+  <!-- 1. MARKETING -->
+  <section class="metodo marketing-section" id="marketing">
+    <div class="container">
+      <div class="section-header" data-animate>
+        <span class="section-tag">Servicios de marketing</span>
+        <h2 class="section-title">Ayudamos a personas y marcas<br />a crecer y vender más.</h2>
+        <p class="section-sub">Aumentamos tu alcance, tu valor percibido y tus ventas en redes sociales e infoproductos. Estrategia real, no solo followers.</p>
+      </div>
+      <div class="dias-grid dias-grid--2">
+        <div class="dia-card" data-animate>
+          <span class="dia-card__num">01</span>
+          <h3>Crecimiento en redes sociales</h3>
+          <p>Desarrollamos la estrategia de contenido, identidad y plan de publicación para que tu cuenta crezca de forma orgánica y sostenida.</p>
+          <ul>
+            <li>Estrategia de contenido personalizada</li>
+            <li>Optimización de perfil e identidad</li>
+            <li>Crecimiento orgánico real</li>
+            <li>Aumento del alcance y valor percibido</li>
+          </ul>
+        </div>
+        <div class="dia-card dia-card--accent" data-animate>
+          <span class="dia-card__num">02</span>
+          <h3>Venta de infoproductos</h3>
+          <p>Te ayudamos a crear, posicionar y vender cursos, ebooks, membresías o servicios digitales. Desde la idea hasta el primer cliente.</p>
+          <ul>
+            <li>Definición y creación del infoproducto</li>
+            <li>Funnel de ventas en redes sociales</li>
+            <li>Campañas en Meta para escalar</li>
+            <li>Aumento del ticket y valor percibido</li>
+          </ul>
+        </div>
+      </div>
+      <div class="section-cta" data-animate>
+        <p>¿Quieres que trabajemos juntos en tu negocio?</p>
+        <button class="btn btn--primary btn--lg" onclick="openModal()">Contactar al equipo →</button>
+        <span>Respuesta en menos de 24 horas</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. TESTIMONIO LUIS -->
+  <section class="testimonio-section" id="testimonio">
+    <div class="container">
+      <div class="section-header" data-animate>
+        <span class="section-tag">Testimonio destacado</span>
+        <h2 class="section-title">De 0 a 130K seguidores<br />con una estrategia clara.</h2>
+        <p class="section-sub">Luis y su equipo aplicaron el método de David y transformaron una cuenta desde cero hasta convertirse en una autoridad de 130K seguidores en Instagram.</p>
+      </div>
+      <div class="testimonio-card" data-animate>
+        <div class="test-video-wrap">
+          <video id="testVideo" autoplay playsinline loop>
+            <source src="videotes.mp4" type="video/mp4" />
+          </video>
+          <button class="test-mute-btn" id="testMuteBtn" onclick="toggleTestMute()" aria-label="Silenciar / Activar audio">
+            <svg id="iconUnmuted" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            <svg id="iconMuted" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+          </button>
+        </div>
+        <div class="test-right">
+          <div class="test-ig-profile">
+            <div class="test-ig-avatar">
+              <img src="juanpainvierte.png" alt="juanpainvierte perfil" />
+            </div>
+            <div class="test-ig-meta">
+              <div class="test-ig-name">
+                <span>juanpainvierte</span>
+                <svg class="test-ig-verified" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="#4f8ef7"/><path d="M7 12.5l3.5 3.5 6.5-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <p class="test-ig-bio">Juanpa | Bienes Raíces · Finanzas · Inversión</p>
+              <div class="test-ig-stats">
+                <div class="test-ig-stat"><strong>764</strong><span>publicaciones</span></div>
+                <div class="test-ig-stat"><strong class="ig-counter" data-target="174000">0</strong><span>seguidores</span></div>
+                <div class="test-ig-stat"><strong>275</strong><span>seguidos</span></div>
+              </div>
+              <a class="btn btn--ig-visit" href="https://www.instagram.com/juanpainvierte" target="_blank" rel="noopener">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="6" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg>
+                Ver perfil en Instagram
+              </a>
+            </div>
+          </div>
+          <div class="test-divider-h"></div>
+          <div class="test-content">
+            <div class="test-quote-mark">"</div>
+            <blockquote class="test-quote">
+              Aplicamos el método de David y en menos de un año llevamos la cuenta de cero a 130K seguidores. No fue suerte — fue tener el plan correcto desde el primer día.
+            </blockquote>
+            <div class="test-author">
+              <span class="test-author-name">Luis &amp; Equipo</span>
+              <span class="test-author-role">Bienes Raíces · Finanzas · Inversión</span>
+            </div>
+            <div class="test-metrics">
+              <div class="test-metric"><strong>130K</strong><span>seguidores alcanzados</span></div>
+              <div class="test-metric"><strong>&lt;12 meses</strong><span>de 0 a comunidad real</span></div>
+              <div class="test-metric"><strong>Bienes Raíces</strong><span>nicho de alto valor</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. CASOS REALES -->
+  <section class="casos" id="casos">
+    <div class="container">
+      <div class="section-header" data-animate>
+        <span class="section-tag">Casos reales</span>
+        <h2 class="section-title">Personas que ya crecieron<br />con el método.</h2>
+        <p class="section-sub">Números reales. Cuentas reales. Sin editar.</p>
+      </div>
+      <div class="casos-img-grid" data-animate>
+        <div class="caso-img-item">
+          <img src="casaclaracol.png" alt="casaclara_col Instagram" />
+          <a class="btn btn--ig-visit" href="https://www.instagram.com/casaclara_col" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="6" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg>
+            Ver perfil
+          </a>
+        </div>
+        <div class="caso-img-item">
+          <img src="inversiones_turbo.png" alt="inversiones_turbomotor Instagram" />
+          <a class="btn btn--ig-visit" href="https://www.instagram.com/inversiones_turbomotor" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="6" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg>
+            Ver perfil
+          </a>
+        </div>
+        <div class="caso-img-item">
+          <img src="dontocino.png" alt="dontocinos Instagram" />
+          <a class="btn btn--ig-visit" href="https://www.instagram.com/dontocinos" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="6" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg>
+            Ver perfil
+          </a>
+        </div>
+        <div class="caso-img-item">
+          <img src="cariocabarber.png" alt="cariocabarbershopp Instagram" />
+          <a class="btn btn--ig-visit" href="https://www.instagram.com/cariocabarbershopp" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="6" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg>
+            Ver perfil
+          </a>
+        </div>
+      </div>
+      <div class="section-cta" data-animate>
+        <p>Tu cuenta puede ser la siguiente.</p>
+        <button class="btn btn--primary btn--lg" onclick="openModal()">Quiero crecer con David →</button>
+        <span>Asesoría personalizada · cupos limitados</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BLOQUE CENTRAL -->
+  <section class="cta-block">
+    <div class="cta-block__bg"></div>
+    <div class="container cta-block__inner" data-animate>
+      <div class="cta-block__text">
+        <span class="section-tag">Virtual · Meet o Zoom</span>
+        <h2>2 clases.<br />1 plan. Resultados reales.</h2>
+        <p>No existe forma más directa de aprender lo que necesitas: una sesión en vivo con David enfocada 100% en tu cuenta y tu negocio.</p>
+      </div>
+      <div class="cta-block__action">
+        <button class="btn btn--primary btn--xl" onclick="openModal()">Reservar mi lugar →</button>
+        <p class="cta-block__seats">Quedan <strong>4 cupos</strong> disponibles</p>
+        <div class="cta-block__proof">
+          <span>✓ Sin desplazamiento — todo virtual</span>
+          <span>✓ Respuesta en 24h</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. ASESORÍA -->
+  <section class="metodo" id="asesoria">
+    <div class="container">
+      <div class="section-header" data-animate>
+        <span class="section-tag">La asesoría</span>
+        <h2 class="section-title">Todo lo que necesitas saber<br />en 2 clases 1 a 1 con David.</h2>
+        <p class="section-sub">No es un curso grabado. Es una sesión en vivo por Meet o Zoom donde David trabaja contigo directamente para trazar el camino correcto para tu cuenta y tu negocio.</p>
+      </div>
+      <div class="dias-grid">
+        <div class="dia-card" data-animate>
+          <span class="dia-card__num">Clase 01</span>
+          <h3>Idea ganadora + perfil optimizado</h3>
+          <p>Definimos el concepto de tu cuenta, encontramos el ángulo diferenciador y optimizamos tu perfil para que convierta desde el primer día.</p>
+          <ul>
+            <li>Crear una idea ganadora de contenido</li>
+            <li>Optimización completa de tu perfil</li>
+            <li>Posicionamiento en tu nicho</li>
+          </ul>
+        </div>
+        <div class="dia-card dia-card--accent" data-animate>
+          <span class="dia-card__num">Clase 02</span>
+          <h3>Vender más + escalar campañas</h3>
+          <p>Aprendes a monetizar tu audiencia, vender infoproductos o servicios, y a escalar campañas en Meta de forma predecible.</p>
+          <ul>
+            <li>Edición de video que convierte</li>
+            <li>Cómo vender más con tu contenido</li>
+            <li>Escalar campañas en Meta Ads</li>
+          </ul>
+        </div>
+        <div class="dia-card" data-animate>
+          <span class="dia-card__num">Bonus 🎁</span>
+          <h3>Curso completo de regalo</h3>
+          <p>Al terminar tus 2 clases recibes acceso a un curso grabado con aproximadamente 5 clases para que refuerces y pongas en práctica todo lo aprendido.</p>
+          <ul>
+            <li>~5 clases en video disponibles 24/7</li>
+            <li>Material de apoyo descargable</li>
+            <li>Acceso permanente al contenido</li>
+          </ul>
+        </div>
+      </div>
+      <div class="section-cta" data-animate>
+        <p>¿Listo para tu asesoría con David?</p>
+        <button class="btn btn--primary btn--lg" onclick="openModal()">Reservar mi lugar →</button>
+        <span>Cupos limitados · Atención personalizada</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARA QUIÉN -->
+  <section class="para-quien">
+    <div class="container">
+      <div class="pq-grid" data-animate>
+        <div class="pq-col pq-col--si">
+          <h3><span class="pq-icon si">✓</span>Esta asesoría es para ti si…</h3>
+          <ul>
+            <li>Quieres crecer en redes sociales con una estrategia real</li>
+            <li>Tienes o quieres un infoproducto o servicio y no sabes cómo venderlo</li>
+            <li>Quieres aprender a crear contenido que atraiga y convierta</li>
+            <li>Buscas orientación personalizada, no un curso genérico</li>
+            <li>Estás dispuesto a aplicar lo que aprendes de inmediato</li>
+          </ul>
+        </div>
+        <div class="pq-col pq-col--no">
+          <h3><span class="pq-icon no">✕</span>No apliques si…</h3>
+          <ul>
+            <li>Buscas resultados sin ningún esfuerzo de tu parte</li>
+            <li>No tienes tiempo para asistir a las sesiones virtuales</li>
+            <li>Prefieres el conocimiento teórico sin ejecutar</li>
+            <li>No estás dispuesto a invertir en tu crecimiento</li>
+          </ul>
+        </div>
+      </div>
+      <div class="section-cta" data-animate>
+        <button class="btn btn--primary btn--lg" onclick="openModal()">Quiero mi asesoría →</button>
+        <span>Revisamos cada solicitud personalmente</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <div class="section-header" data-animate>
+        <span class="section-tag">Preguntas frecuentes</span>
+        <h2 class="section-title">Todo lo que necesitas saber<br />antes de reservar.</h2>
+      </div>
+      <div class="faq__list" data-animate>
+        <div class="faq-item">
+          <button class="faq-item__q" aria-expanded="false">¿En qué consiste la asesoría?</button>
+          <div class="faq-item__a">Son 2 clases virtuales en vivo por Meet o Zoom directamente con David en formato 1 a 1. Trabajamos tu idea de contenido, optimizamos tu perfil, aprendes a editar video, a vender más y a escalar campañas en Meta, entre mucho más. Al finalizar recibes un bonus: un curso grabado con aproximadamente 5 clases para reforzar todo lo aprendido.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-item__q" aria-expanded="false">¿Tengo que viajar o ir a algún lugar?</button>
+          <div class="faq-item__a">No. La asesoría es 100% virtual a través de Google Meet o Zoom. Puedes estar desde cualquier lugar del mundo.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-item__q" aria-expanded="false">¿Qué aprendo en las 2 clases?</button>
+          <div class="faq-item__a">Aprenderás a crear una idea ganadora de contenido, a optimizar tu perfil, a editar videos que convierten, a vender tus productos o servicios desde redes sociales y a escalar campañas en Meta. El enfoque se adapta a tu situación específica.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-item__q" aria-expanded="false">¿Qué es el bonus que incluye?</button>
+          <div class="faq-item__a">Al completar tus 2 clases con David, recibes acceso a un curso grabado con aproximadamente 5 clases para que puedas repasar, profundizar y poner en práctica todo lo que aprendiste a tu propio ritmo. El acceso es permanente.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-item__q" aria-expanded="false">¿Cuántos cupos hay disponibles?</button>
+          <div class="faq-item__a">Los cupos son muy limitados para garantizar atención personalizada en cada sesión. Te contactamos por WhatsApp en menos de 24 horas después de tu solicitud para confirmar disponibilidad.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-item__q" aria-expanded="false">¿Qué son los servicios de marketing?</button>
+          <div class="faq-item__a">Además de la asesoría 1 a 1, el equipo de David ofrece servicios completos de marketing digital: estrategia de contenido, crecimiento en redes sociales, creación y venta de infoproductos y campañas pagadas en Meta. Ideales para quienes quieren un acompañamiento más integral.</div>
+        </div>
+      </div>
+      <div class="section-cta" data-animate>
+        <p>¿Ya no tienes dudas?</p>
+        <button class="btn btn--primary btn--lg" onclick="openModal()">Reservar mi asesoría →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-final">
+    <div class="cta-final__bg"></div>
+    <div class="container">
+      <div class="cta-final__inner" data-animate>
+        <span class="section-tag">Virtual · Meet o Zoom · Cupos limitados</span>
+        <h2 class="cta-final__title">La diferencia entre donde estás<br />y donde quieres estar<br />es <em>la guía correcta.</em></h2>
+        <p class="cta-final__sub">2 clases en vivo con David. El plan que necesitas, aplicado a tu cuenta y tu negocio.</p>
+        <button class="btn btn--primary btn--xl" onclick="openModal()">Solicitar mi asesoría →</button>
+        <div class="cta-final__trust">
+          <span>🔒 Proceso 100% confidencial</span>
+          <span class="dot">·</span>
+          <span>Respuesta en menos de 24h</span>
+          <span class="dot">·</span>
+          <span>Cupos muy limitados</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="nav__logo">David<span>Marez</span></span>
+      <p>© 2026 David Marez · Todos los derechos reservados</p>
+    </div>
+  </footer>
+
+  <!-- MODAL MULTI-PASO -->
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal modal--multistep">
+      <button class="modal__close" onclick="closeModal()" aria-label="Cerrar">✕</button>
+
+      <!-- Barra de progreso -->
+      <div class="mf-progress">
+        <div class="mf-progress__bar" id="mfProgressBar"></div>
+      </div>
+      <p class="mf-step-label" id="mfStepLabel">Paso 1 de 5</p>
+
+      <!-- ── STEP 1: Industria ────────────────── -->
+      <div class="mf-step" id="mfStep1">
+        <h3 class="modal__title">¿En qué industria está<br/>tu negocio?</h3>
+        <p class="modal__sub">Selecciona la opción que mejor te describe.</p>
+        <div class="mf-cards" id="mfIndustria">
+          <button class="mf-card" data-val="Marketing digital">📱 Marketing digital</button>
+          <button class="mf-card" data-val="Salud y bienestar">💊 Salud y bienestar</button>
+          <button class="mf-card" data-val="Inmobiliaria">🏠 Inmobiliaria</button>
+          <button class="mf-card" data-val="Finanzas y negocios">💰 Finanzas y negocios</button>
+          <button class="mf-card" data-val="E-commerce">🛒 E-commerce</button>
+          <button class="mf-card" data-val="Otro">✨ Otro</button>
+        </div>
+        <button class="btn btn--primary btn--block mf-next" onclick="mfNext(1)" id="mfBtn1" disabled>Siguiente →</button>
+      </div>
+
+      <!-- ── STEP 2: Mayor reto ───────────────── -->
+      <div class="mf-step" id="mfStep2" style="display:none">
+        <h3 class="modal__title">¿Cuál es tu mayor reto<br/>ahora mismo?</h3>
+        <p class="modal__sub">Sé honesto, esto ayuda a David a prepararse para ti.</p>
+        <div class="mf-cards mf-cards--col" id="mfReto">
+          <button class="mf-card" data-val="No consigo ganar seguidores">No consigo ganar seguidores</button>
+          <button class="mf-card" data-val="Mis videos tienen pocas visitas">Mis videos tienen pocas visitas</button>
+          <button class="mf-card" data-val="Me cuesta vender por falta de posicionamiento">Me cuesta vender por falta de posicionamiento</button>
+          <button class="mf-card" data-val="Gasto en anuncios y no veo resultados">Gasto en anuncios y no veo resultados</button>
+          <button class="mf-card" data-val="Tengo audiencia pero no sé cómo monetizarla">Tengo audiencia pero no sé cómo monetizarla</button>
+        </div>
+        <button class="btn btn--primary btn--block mf-next" onclick="mfNext(2)" id="mfBtn2" disabled>Siguiente →</button>
+      </div>
+
+      <!-- ── STEP 3: Facturación ─────────────── -->
+      <div class="mf-step" id="mfStep3" style="display:none">
+        <h3 class="modal__title">¿Cuánto facturas<br/>mensualmente?</h3>
+        <p class="modal__sub">Información completamente confidencial.</p>
+        <div class="mf-cards mf-cards--col" id="mfFacturacion">
+          <button class="mf-card" data-val="+$10.000/mes">+ $10.000 / mes</button>
+          <button class="mf-card" data-val="$3.000 - $10.000/mes">$3.000 – $10.000 / mes</button>
+          <button class="mf-card" data-val="$1.000 - $3.000/mes">$1.000 – $3.000 / mes</button>
+          <button class="mf-card" data-val="Menos de $1.000/mes">Menos de $1.000 / mes</button>
+        </div>
+        <button class="btn btn--primary btn--block mf-next" onclick="mfNext(3)" id="mfBtn3" disabled>Siguiente →</button>
+      </div>
+
+      <!-- ── STEP 4: Inversión (slider) ─────── -->
+      <div class="mf-step" id="mfStep4" style="display:none">
+        <h3 class="modal__title">¿Cuánto estás dispuesto<br/>a invertir?</h3>
+        <p class="modal__sub">Mueve la barra para indicar tu presupuesto aproximado.</p>
+        <div class="mf-slider-wrap">
+          <div class="mf-slider-display">
+            <span class="mf-slider-amount" id="mfSliderAmount">$1.000</span>
+            <span class="mf-slider-label" id="mfSliderLabel">Inversión inicial</span>
+          </div>
+          <div class="mf-slider-track">
+            <div class="mf-slider-fill" id="mfSliderFill"></div>
+            <input type="range" class="mf-slider" id="mfInversion"
+              min="200" max="10000" step="100" value="1000"
+              oninput="mfUpdateSlider(this.value)" />
+          </div>
+          <div class="mf-slider-ticks">
+            <span>$200</span><span>$2.500</span><span>$5.000</span><span>$10.000+</span>
+          </div>
+        </div>
+        <button class="btn btn--primary btn--block" onclick="mfNext(4)">Siguiente →</button>
+      </div>
+
+      <!-- ── STEP 5: Datos de contacto ──────── -->
+      <div class="mf-step" id="mfStep5" style="display:none">
+        <h3 class="modal__title">¡Casi listo! Cuéntanos<br/>quién eres.</h3>
+        <p class="modal__sub">Te contactamos por WhatsApp en menos de 24 horas.</p>
+        <div class="form-group">
+          <label for="inputName">Nombre completo *</label>
+          <input id="inputName" type="text" placeholder="Tu nombre" />
+        </div>
+        <div class="form-group">
+          <label for="inputIg">Tu @ en Instagram *</label>
+          <input id="inputIg" type="text" placeholder="@tunombre" />
+        </div>
+        <div class="form-group">
+          <label for="inputWa">WhatsApp (con código de país) *</label>
+          <input id="inputWa" type="tel" placeholder="+57 300 000 0000" />
+        </div>
+        <div class="form-group">
+          <label for="inputEmail">Correo electrónico *</label>
+          <input id="inputEmail" type="email" placeholder="tu@correo.com" />
+        </div>
+        <div class="form-group">
+          <label>¿Esta decisión depende al 100% de ti?</label>
+          <div class="mf-radio-row">
+            <label class="mf-radio"><input type="radio" name="decision" value="Sí, depende de mí" /> Sí, depende de mí</label>
+            <label class="mf-radio"><input type="radio" name="decision" value="Debo consultarlo" /> Debo consultarlo</label>
+          </div>
+        </div>
+        <button class="btn btn--primary btn--block" onclick="submitForm()" id="mfSubmitBtn">Enviar solicitud →</button>
+        <p class="modal__legal">Al enviar aceptas ser contactado vía WhatsApp con información sobre los servicios.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

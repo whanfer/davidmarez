@@ -272,15 +272,18 @@ document.querySelectorAll('.ig-bar').forEach(bar => barObs.observe(bar));
 
 
 // ── VIDEO PLAY / PAUSE POR VIEWPORT ──────
-// Lógica unificada para ambos videos:
-//   • heroVideo   (hero)        → play/pause + sonido según visibilidad
-//   • testVideo   (testimonio)  → play/pause + sonido según visibilidad
 //
-// Ambos intentan reproducirse con sonido; si el navegador lo bloquea
-// (política de autoplay), caen automáticamente a muted.
-// El botón de mute de cada video sigue funcionando igual.
+// heroVideo:
+//   - Inicia muted + animación en botón "Activar sonido"
+//   - Al primer scroll, activa sonido automáticamente (interacción = scroll)
+//   - Si sale del viewport → pausa
+//   - Si vuelve → retoma con sonido (ya hubo interacción)
+//   - Botón mute en esquina para control manual
+//
+// testVideo: play/pause por visibilidad, con botón mute propio
 
-// Sincroniza los íconos de mute de un video dado su config de IDs
+let heroSoundUnlocked = false; // ¿ya hubo interacción del usuario?
+
 function syncMuteIcons(muted, iconUnmutedId, iconMutedId) {
   const iconUnmuted = document.getElementById(iconUnmutedId);
   const iconMuted   = document.getElementById(iconMutedId);
@@ -289,18 +292,39 @@ function syncMuteIcons(muted, iconUnmutedId, iconMutedId) {
   iconMuted.style.display   = muted ? ''     : 'none';
 }
 
-// Intenta reproducir con sonido; si el navegador lo bloquea, cae a muted
-function tryPlayWithAudio(video, iconUnmutedId, iconMutedId) {
-  video.muted = false;
-  const p = video.play();
-  if (p !== undefined) {
-    p.catch(() => {
-      video.muted = true;
-      syncMuteIcons(true, iconUnmutedId, iconMutedId);
-      video.play().catch(() => {});
-    });
+function dismissHeroOverlay() {
+  const overlay = document.getElementById('heroUnmuteOverlay');
+  const muteBtn = document.getElementById('heroMuteBtn');
+  if (overlay) {
+    overlay.style.opacity = '0';
+    overlay.style.pointerEvents = 'none';
+    setTimeout(() => overlay.style.display = 'none', 500);
   }
-  syncMuteIcons(video.muted, iconUnmutedId, iconMutedId);
+  if (muteBtn) muteBtn.style.display = '';
+}
+
+// Llamado por clic en el botón overlay
+function heroActivateSound() {
+  const video = document.getElementById('heroVideo');
+  if (!video) return;
+  heroSoundUnlocked = true;
+  video.muted = false;
+  video.play().catch(() => { video.muted = true; });
+  dismissHeroOverlay();
+  syncMuteIcons(video.muted, 'heroIconUnmuted', 'heroIconMuted');
+}
+
+// Llamado al hacer scroll (primera vez)
+function heroUnlockOnScroll() {
+  if (heroSoundUnlocked) return;
+  const video = document.getElementById('heroVideo');
+  if (!video || video.paused) return; // solo si está reproduciendo
+  heroSoundUnlocked = true;
+  video.muted = false;
+  // Si el navegador rechaza igual, se queda muted silenciosamente
+  video.play().catch(() => { video.muted = true; });
+  dismissHeroOverlay();
+  syncMuteIcons(video.muted, 'heroIconUnmuted', 'heroIconMuted');
 }
 
 function toggleHeroMute() {
@@ -317,39 +341,67 @@ function toggleTestMute() {
   syncMuteIcons(video.muted, 'iconUnmuted', 'iconMuted');
 }
 
-// Observer compartido: threshold 0.5 = video al menos 50% visible para activarse
-const videoViewportObs = new IntersectionObserver((entries) => {
+// Scroll listener: desbloquea sonido al primer scroll mientras hero es visible
+window.addEventListener('scroll', () => {
+  if (heroSoundUnlocked) return;
+  heroUnlockOnScroll();
+}, { passive: true });
+
+// Observer hero: play muted al entrar, pausa al salir
+// Una vez desbloqueado el sonido, retoma con audio
+const heroObs = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     const video = entry.target;
-    const isHero = video.id === 'heroVideo';
-
     if (entry.isIntersecting) {
-      if (isHero) {
-        tryPlayWithAudio(video, 'heroIconUnmuted', 'heroIconMuted');
+      if (heroSoundUnlocked) {
+        video.muted = false;
+        syncMuteIcons(false, 'heroIconUnmuted', 'heroIconMuted');
       } else {
-        tryPlayWithAudio(video, 'iconUnmuted', 'iconMuted');
+        video.muted = true;
       }
+      video.play().catch(() => {});
     } else {
-      // Salió del viewport → pausar
       video.pause();
     }
   });
-}, { threshold: 0.5 });
+}, { threshold: 0.3 });
+
+// Observer testimonio: play/pause con intento de sonido
+const testObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    const video = entry.target;
+    if (entry.isIntersecting) {
+      video.muted = false;
+      video.play().catch(() => {
+        video.muted = true;
+        syncMuteIcons(true, 'iconUnmuted', 'iconMuted');
+        video.play().catch(() => {});
+      });
+      syncMuteIcons(video.muted, 'iconUnmuted', 'iconMuted');
+    } else {
+      video.pause();
+    }
+  });
+}, { threshold: 0.3 });
 
 // ── INICIALIZAR OBSERVERS DE VIDEO ───────
 window.addEventListener('DOMContentLoaded', () => {
   const heroVideo = document.getElementById('heroVideo');
-  if (heroVideo) videoViewportObs.observe(heroVideo); // ← hero ahora observado
+  if (heroVideo) {
+    heroVideo.muted = true; // inicia muted, el botón/scroll lo desbloquea
+    heroObs.observe(heroVideo);
+  }
 
   const testVideo = document.getElementById('testVideo');
-  if (testVideo) videoViewportObs.observe(testVideo);
+  if (testVideo) testObs.observe(testVideo);
 });
 
 
 // ── EXPOSE GLOBALS ───────────────────────
-window.openModal      = openModal;
-window.closeModal     = closeModal;
-window.submitForm     = submitForm;
-window.closeMobileNav = closeMobileNav;
-window.toggleTestMute = toggleTestMute;
-window.toggleHeroMute = toggleHeroMute;
+window.openModal         = openModal;
+window.closeModal        = closeModal;
+window.submitForm        = submitForm;
+window.closeMobileNav    = closeMobileNav;
+window.toggleTestMute    = toggleTestMute;
+window.toggleHeroMute    = toggleHeroMute;
+window.heroActivateSound = heroActivateSound;

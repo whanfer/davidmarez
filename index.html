@@ -48,15 +48,69 @@
         vender más y escalar<br />
         <span>tu negocio con claridad.</span>
       </h1>
-      <div class="hero__vsl">
-        <iframe
-          id="heroVideo"
-          src="https://www.youtube.com/embed/0yJ_XBO3AQg?autoplay=1&mute=1&loop=1&playlist=0yJ_XBO3AQg&controls=0&showinfo=0&modestbranding=1"
-          frameborder="0"
-          allow="autoplay; encrypted-media"
-          allowfullscreen
-          style="width:100%; height:100%; border-radius: inherit;">
-        </iframe>
+      <div class="hero__vsl" style="position:relative;">
+        <video id="heroVideo" playsinline loop muted style="width:100%; height:100%; border-radius: inherit; object-fit:cover;">
+          <source src="video.mp4" type="video/mp4" />
+        </video>
+
+        <!-- Overlay animado: clic o scroll activa sonido -->
+        <div id="heroUnmuteOverlay" onclick="heroActivateSound()" style="
+          position:absolute; inset:0;
+          display:flex; flex-direction:column; align-items:center; justify-content:center;
+          border-radius:inherit;
+          cursor:pointer;
+          gap:0.75rem;
+          opacity:1;
+          transition: opacity 0.5s ease;
+        ">
+          <!-- Ripple animado -->
+          <div style="position:relative; width:64px; height:64px; display:flex; align-items:center; justify-content:center;">
+            <span style="
+              position:absolute; inset:0; border-radius:50%;
+              background: rgba(255,255,255,0.25);
+              animation: heroRipple 1.8s ease-out infinite;
+            "></span>
+            <span style="
+              position:absolute; inset:0; border-radius:50%;
+              background: rgba(255,255,255,0.15);
+              animation: heroRipple 1.8s ease-out infinite 0.6s;
+            "></span>
+            <div style="
+              width:56px; height:56px; border-radius:50%;
+              background: rgba(255,255,255,0.18);
+              border: 2px solid rgba(255,255,255,0.75);
+              backdrop-filter: blur(6px);
+              display:flex; align-items:center; justify-content:center;
+              position:relative; z-index:1;
+            ">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+              </svg>
+            </div>
+          </div>
+          <span style="
+            color:white; font-size:0.78rem; letter-spacing:0.08em; text-transform:uppercase;
+            font-family:'Space Grotesk',sans-serif; font-weight:600;
+            background:rgba(0,0,0,0.35); padding:0.3rem 0.85rem; border-radius:99px;
+            backdrop-filter:blur(4px);
+          ">Toca para activar sonido</span>
+        </div>
+
+        <!-- Keyframes del ripple inyectados inline -->
+        <style>
+          @keyframes heroRipple {
+            0%   { transform: scale(1);   opacity: 0.6; }
+            100% { transform: scale(2.2); opacity: 0; }
+          }
+        </style>
+
+        <!-- Botón mute esquina (aparece después del overlay) -->
+        <button class="test-mute-btn" id="heroMuteBtn" onclick="toggleHeroMute()" aria-label="Silenciar / Activar audio" style="position:absolute; bottom:1rem; right:1rem; display:none;">
+          <svg id="heroIconUnmuted" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+          <svg id="heroIconMuted" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+        </button>
       </div>
       <div class="hero__actions">
         <button class="btn btn--primary btn--lg" onclick="openModal()">Quiero trabajar con David →</button>
@@ -157,7 +211,7 @@
         <div class="test-right">
           <div class="test-ig-profile">
             <div class="test-ig-avatar">
-              <img src="juanpainvierte.png" alt="juanpainvierte perfil" />
+              <img src="image.png" alt="juanpainvierte perfil" />
             </div>
             <div class="test-ig-meta">
               <div class="test-ig-name">

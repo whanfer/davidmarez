@@ -21,7 +21,10 @@
         <li><a href="#casos">Casos Reales</a></li>
         <li><a href="#asesoria">La Asesoría</a></li>
       </ul>
-      <button class="btn btn--primary nav__cta" onclick="openModal()">Quiero trabajar con David</button>
+      <button class="btn btn--primary nav__cta" onclick="openModal('General - Nav')">Quiero trabajar con David</button>
+      <button class="btn--admin-trigger nav__admin" onclick="openAdminLogin()" title="Panel administrador">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </button>
       <button class="nav__burger" id="navBurger" aria-label="Menú">
         <span></span><span></span><span></span>
       </button>
@@ -32,7 +35,7 @@
       <a href="#casos" onclick="closeMobileNav()">Casos Reales</a>
       <a href="#asesoria" onclick="closeMobileNav()">La Asesoría</a>
       <a href="#faq" onclick="closeMobileNav()">FAQ</a>
-      <button class="btn btn--primary" onclick="closeMobileNav();openModal()">Reservar lugar →</button>
+      <button class="btn btn--primary" onclick="closeMobileNav();openModal('General - Nav Mobile')">Reservar lugar →</button>
     </div>
   </nav>
 
@@ -113,7 +116,7 @@
         </button>
       </div>
       <div class="hero__actions">
-        <button class="btn btn--primary btn--lg" onclick="openModal()">Quiero trabajar con David →</button>
+        <button class="btn btn--primary btn--lg" onclick="openModal('General - Hero')">Quiero trabajar con David →</button>
         <a class="hero__scroll-link" href="#marketing">Ver los servicios ↓</a>
       </div>
       <div class="hero__trust"></div>
@@ -146,7 +149,7 @@
   <div class="urgency-bar" data-animate>
     <div class="container urgency-bar__inner">
       <span>⚡ Los cupos para asesoría se están agotando — <strong>Quedan solo 4 lugares.</strong></span>
-      <button class="btn btn--sm btn--white-outline" onclick="openModal()">Reservar ahora →</button>
+      <button class="btn btn--sm btn--white-outline" onclick="openModal('Asesoría 1 a 1 - Barra Urgencia')">Reservar ahora →</button>
     </div>
   </div>
 
@@ -169,6 +172,7 @@
             <li>Crecimiento orgánico real</li>
             <li>Aumento del alcance y valor percibido</li>
           </ul>
+          <button class="btn btn--primary btn--sm" style="margin-top:1.2rem" onclick="openModal('Servicios de Marketing - Crecimiento Redes')">Quiero crecer en redes →</button>
         </div>
         <div class="dia-card dia-card--accent" data-animate>
           <span class="dia-card__num">02</span>
@@ -180,11 +184,12 @@
             <li>Campañas en Meta para escalar</li>
             <li>Aumento del ticket y valor percibido</li>
           </ul>
+          <button class="btn btn--primary btn--sm" style="margin-top:1.2rem" onclick="openModal('Servicios de Marketing - Infoproductos')">Quiero vender más →</button>
         </div>
       </div>
       <div class="section-cta" data-animate>
         <p>¿Quieres que trabajemos juntos en tu negocio?</p>
-        <button class="btn btn--primary btn--lg" onclick="openModal()">Contactar al equipo →</button>
+        <button class="btn btn--primary btn--lg" onclick="openModal('Servicios de Marketing - Sección')">Contactar al equipo →</button>
         <span>Respuesta en menos de 24 horas</span>
       </div>
     </div>
@@ -288,10 +293,24 @@
             Ver perfil
           </a>
         </div>
+        <div class="caso-img-item">
+          <img src="soyrico.png" alt="soyricocomunidad Instagram" />
+          <a class="btn btn--ig-visit" href="https://www.instagram.com/soyricocomunidad" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="6" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg>
+            Ver perfil
+          </a>
+        </div>
+        <div class="caso-img-item">
+          <img src="andree.png" alt="andreementalhacker Instagram" />
+          <a class="btn btn--ig-visit" href="https://www.instagram.com/andreementalhacker" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="6" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg>
+            Ver perfil
+          </a>
+        </div>
       </div>
       <div class="section-cta" data-animate>
         <p>Tu cuenta puede ser la siguiente.</p>
-        <button class="btn btn--primary btn--lg" onclick="openModal()">Quiero crecer con David →</button>
+        <button class="btn btn--primary btn--lg" onclick="openModal('Asesoría 1 a 1 - Casos Reales')">Quiero crecer con David →</button>
         <span>Asesoría personalizada · cupos limitados</span>
       </div>
     </div>
@@ -307,7 +326,7 @@
         <p>No existe forma más directa de aprender lo que necesitas: una sesión en vivo con David enfocada 100% en tu cuenta y tu negocio.</p>
       </div>
       <div class="cta-block__action">
-        <button class="btn btn--primary btn--xl" onclick="openModal()">Reservar mi lugar →</button>
+        <button class="btn btn--primary btn--xl" onclick="openModal('Asesoría 1 a 1 - Bloque Central')">Reservar mi lugar →</button>
         <p class="cta-block__seats">Quedan <strong>4 cupos</strong> disponibles</p>
         <div class="cta-block__proof">
           <span>✓ Sin desplazamiento — todo virtual</span>
@@ -359,8 +378,7 @@
       </div>
       <div class="section-cta" data-animate>
         <p>¿Listo para tu asesoría con David?</p>
-        <button class="btn btn--primary btn--lg" onclick="openModal()">Reservar mi lugar →</button>
-        <span>Cupos limitados · Atención personalizada</span>
+        <button class="btn btn--primary btn--lg" onclick="openModal('Asesoría 1 a 1 - Sección Asesoría')">Reservar mi lugar →</button>
       </div>
     </div>
   </section>
@@ -390,7 +408,7 @@
         </div>
       </div>
       <div class="section-cta" data-animate>
-        <button class="btn btn--primary btn--lg" onclick="openModal()">Quiero mi asesoría →</button>
+        <button class="btn btn--primary btn--lg" onclick="openModal('Asesoría 1 a 1 - Para Quién')">Quiero mi asesoría →</button>
         <span>Revisamos cada solicitud personalmente</span>
       </div>
     </div>
@@ -431,7 +449,10 @@
       </div>
       <div class="section-cta" data-animate>
         <p>¿Ya no tienes dudas?</p>
-        <button class="btn btn--primary btn--lg" onclick="openModal()">Reservar mi asesoría →</button>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center">
+          <button class="btn btn--primary btn--lg" onclick="openModal('Asesoría 1 a 1 - FAQ')">Reservar mi asesoría →</button>
+          <button class="btn btn--white-outline btn--lg" onclick="openModal('Servicios de Marketing - FAQ')">Ver servicios de marketing →</button>
+        </div>
       </div>
     </div>
   </section>
@@ -444,7 +465,7 @@
         <span class="section-tag">Virtual · Meet o Zoom · Cupos limitados</span>
         <h2 class="cta-final__title">La diferencia entre donde estás<br />y donde quieres estar<br />es <em>la guía correcta.</em></h2>
         <p class="cta-final__sub">2 clases en vivo con David. El plan que necesitas, aplicado a tu cuenta y tu negocio.</p>
-        <button class="btn btn--primary btn--xl" onclick="openModal()">Solicitar mi asesoría →</button>
+        <button class="btn btn--primary btn--xl" onclick="openModal('Asesoría 1 a 1 - CTA Final')">Solicitar mi asesoría →</button>
         <div class="cta-final__trust">
           <span>🔒 Proceso 100% confidencial</span>
           <span class="dot">·</span>
@@ -556,6 +577,10 @@
           <input id="inputWa" type="tel" placeholder="+57 300 000 0000" />
         </div>
         <div class="form-group">
+          <label for="inputPhone">Teléfono alternativo (opcional)</label>
+          <input id="inputPhone" type="tel" placeholder="+57 300 000 0000" />
+        </div>
+        <div class="form-group">
           <label for="inputEmail">Correo electrónico *</label>
           <input id="inputEmail" type="email" placeholder="tu@correo.com" />
         </div>
@@ -570,6 +595,66 @@
         <p class="modal__legal">Al enviar aceptas ser contactado vía WhatsApp con información sobre los servicios.</p>
       </div>
 
+      <!-- ── STEP 6: Éxito ───────────────────── -->
+      <div class="mf-step" id="mfStep6" style="display:none">
+        <div class="mf-success">
+          <div class="mf-success__icon">✓</div>
+          <h3 class="modal__title">¡Solicitud enviada!</h3>
+          <p class="modal__sub">David revisará tu caso personalmente y te contactará por WhatsApp en <strong>menos de 24 horas</strong>.</p>
+          <div class="mf-success__details">
+            <p>📱 Te escribirá al número que dejaste</p>
+            <p>🎯 Revisó tu industria, reto y presupuesto</p>
+            <p>🔒 Tu información es 100% confidencial</p>
+          </div>
+          <button class="btn btn--primary btn--block" onclick="closeModal()" style="margin-top:1.2rem">Cerrar →</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ADMIN LOGIN MODAL -->
+  <div class="modal-overlay" id="adminLoginModal" role="dialog" aria-modal="true">
+    <div class="modal" style="max-width:360px">
+      <button class="modal__close" onclick="closeAdminLogin()" aria-label="Cerrar">✕</button>
+      <div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:1.2rem">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--accent-dim);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div>
+          <h3 class="modal__title" style="font-size:1.1rem;margin:0">Panel Admin</h3>
+          <p style="font-size:0.72rem;color:var(--muted);margin:0">David Marez · Leads</p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="adminUser">Usuario</label>
+        <input id="adminUser" type="text" placeholder="usuario" autocomplete="username" />
+      </div>
+      <div class="form-group">
+        <label for="adminPass">Contraseña</label>
+        <input id="adminPass" type="password" placeholder="••••••••" autocomplete="current-password"
+          onkeydown="if(event.key==='Enter') adminLogin()" />
+      </div>
+      <p id="adminLoginError" style="display:none;color:#f87171;font-size:0.8rem;margin-bottom:0.6rem"></p>
+      <button class="btn btn--primary btn--block" onclick="adminLogin()">Entrar →</button>
+    </div>
+  </div>
+
+  <!-- ADMIN DASHBOARD MODAL -->
+  <div class="modal-overlay" id="adminDashModal" role="dialog" aria-modal="true">
+    <div class="modal" style="max-width:960px;width:100%">
+      <button class="modal__close" onclick="closeAdminDash()" aria-label="Cerrar">✕</button>
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.4rem">
+        <div>
+          <h3 class="modal__title" style="font-size:1.2rem;margin:0">Leads de Asesoría</h3>
+          <p style="font-size:0.75rem;color:var(--muted);margin:0">David Marez · Panel de control</p>
+        </div>
+        <button class="btn btn--primary btn--sm" onclick="downloadLeadsPDF()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:5px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Exportar PDF
+        </button>
+      </div>
+      <div id="adminDashBody"></div>
     </div>
   </div>
 

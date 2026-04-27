@@ -17,8 +17,8 @@ const FIREBASE_CONFIG = {
 let _db = null;
 async function getDb() {
   if (_db) return _db;
-  const { initializeApp, getApps } = await import('https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js');
-  const { getFirestore, collection, addDoc, getDocs, orderBy, query, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js');
+  const { initializeApp, getApps } = await import('https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js');
+  const { getFirestore, collection, addDoc, getDocs, orderBy, query, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js');
   const app = getApps().length ? getApps()[0] : initializeApp(FIREBASE_CONFIG);
   _db = { db: getFirestore(app), collection, addDoc, getDocs, orderBy, query, serverTimestamp };
   return _db;
@@ -106,7 +106,10 @@ document.querySelectorAll('.faq-item__q').forEach(btn => {
 // ── MODAL ────────────────────────────────
 const modalOverlay = document.getElementById('modalOverlay');
 
-function openModal() {
+function openModal(ctaOrigen) {
+  // Guardar el CTA que originó la apertura
+  mfData.ctaOrigen = ctaOrigen || 'Desconocido';
+
   modalOverlay.classList.add('active');
   document.body.style.overflow = 'hidden';
   // Reset multi-step form
@@ -114,10 +117,13 @@ function openModal() {
   document.querySelectorAll('.mf-card').forEach(c => c.classList.remove('selected'));
   document.querySelectorAll('.mf-next').forEach(b => b.disabled = true);
   document.querySelectorAll('input[name="decision"]').forEach(r => r.checked = false);
-  ['inputName','inputIg','inputWa','inputEmail'].forEach(id => {
+  ['inputName','inputIg','inputWa','inputPhone','inputEmail'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
+  // Asegurar que barra y label sean visibles al abrir
+  document.getElementById('mfProgressBar').parentElement.style.display = '';
+  document.getElementById('mfStepLabel').style.display = '';
   setTimeout(initSlider, 50);
 }
 
@@ -135,7 +141,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ── MULTI-STEP FORM ──────────────────────
-const MF_TOTAL = 5;
+const MF_TOTAL = 6; // 5 pasos de datos + 1 pantalla de éxito
 let mfCurrentStep = 1;
 const mfData = {};
 
@@ -145,9 +151,15 @@ function mfShowStep(n) {
     if (el) el.style.display = i === n ? '' : 'none';
   }
   mfCurrentStep = n;
-  const pct = ((n - 1) / MF_TOTAL) * 100;
-  document.getElementById('mfProgressBar').style.width = pct + '%';
-  document.getElementById('mfStepLabel').textContent = 'Paso ' + n + ' de ' + MF_TOTAL;
+  // En el step de éxito ocultamos barra y label
+  const isSuccess = n === MF_TOTAL;
+  document.getElementById('mfProgressBar').parentElement.style.display = isSuccess ? 'none' : '';
+  document.getElementById('mfStepLabel').style.display = isSuccess ? 'none' : '';
+  if (!isSuccess) {
+    const pct = ((n - 1) / (MF_TOTAL - 1)) * 100;
+    document.getElementById('mfProgressBar').style.width = pct + '%';
+    document.getElementById('mfStepLabel').textContent = 'Paso ' + n + ' de ' + (MF_TOTAL - 1);
+  }
 }
 
 function mfNext(step) {
@@ -194,14 +206,48 @@ function initSlider() {
   mfUpdateSlider(document.getElementById('mfInversion').value);
 }
 
+// ── CALLMEBOT ────────────────────────────
+const CALLMEBOT_PHONE  = '573113943888'; // Número de David (sin + ni espacios)
+const CALLMEBOT_APIKEY = '8615768';
+
+async function sendWhatsAppNotification(lead) {
+  try {
+    // Construir link de WhatsApp directo al lead
+    const leadPhone = lead.wa.replace(/[\s\-\(\)\+]/g, ''); // limpiar el número
+    const waLink = `https://wa.me/${leadPhone}`;
+
+    const msg =
+      `🔔 *NUEVO LEAD - Asesoría David Marez*\n\n` +
+      `🎯 *Interés detectado:* ${lead.ctaOrigen || '—'}\n\n` +
+      `👤 *Nombre:* ${lead.nombre}\n` +
+      `📱 *Instagram:* ${lead.ig}\n` +
+      `📞 *WhatsApp:* ${lead.wa}\n` +
+      `✉️ *Email:* ${lead.email}\n\n` +
+      `🏢 *Industria:* ${lead.industria || '—'}\n` +
+      `⚡ *Mayor reto:* ${lead.reto || '—'}\n` +
+      `💵 *Facturación:* ${lead.facturacion || '—'}\n` +
+      `💰 *Inversión dispuesta:* $${parseInt(lead.inversion).toLocaleString()}\n` +
+      `✅ *Decisión propia:* ${lead.decision || '—'}\n\n` +
+      `👉 Escribirle ahora: ${waLink}`;
+
+    const encoded = encodeURIComponent(msg);
+    const url = `https://api.callmebot.com/whatsapp.php?phone=${CALLMEBOT_PHONE}&text=${encoded}&apikey=${CALLMEBOT_APIKEY}`;
+    await fetch(url, { mode: 'no-cors' });
+  } catch(e) {
+    // Silencioso — no bloquea el flujo del usuario
+    console.warn('CallMeBot error:', e);
+  }
+}
+
 function submitForm() {
   const name  = document.getElementById('inputName').value.trim();
   const ig    = document.getElementById('inputIg').value.trim();
   const wa    = document.getElementById('inputWa').value.trim();
+  const phone = document.getElementById('inputPhone')?.value.trim() || '';
   const email = document.getElementById('inputEmail').value.trim();
 
   if (!name || !ig || !wa || !email) {
-    alert('Por favor completa todos los campos antes de enviar.');
+    alert('Por favor completa todos los campos obligatorios (*).');
     return;
   }
   const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -214,39 +260,23 @@ function submitForm() {
   btn.textContent = 'Enviando...';
   btn.disabled = true;
 
-  // Collect final data
-  mfData.nombre  = name;
-  mfData.ig      = ig;
-  mfData.wa      = wa;
-  mfData.email   = email;
+  // Recopilar datos completos
+  mfData.nombre   = name;
+  mfData.ig       = ig;
+  mfData.wa       = wa;
+  mfData.phone    = phone;
+  mfData.email    = email;
   mfData.decision = document.querySelector('input[name="decision"]:checked')?.value || '';
 
-  // Guardar en Firestore
+  // Guardar en Firestore + notificar a David
   saveLeadToFirestore(mfData)
-    .then(() => { closeModal(); showToast(); })
-    .catch(() => { closeModal(); showToast(); })
-    .finally(() => { btn.textContent = 'Enviar solicitud →'; btn.disabled = false; });
-}
-
-
-// ── SUCCESS TOAST ────────────────────────
-function showToast() {
-  const t = document.createElement('div');
-  t.innerHTML = `<span style="font-size:1.2rem">✓</span><div><strong>¡Solicitud recibida!</strong><p style="font-size:0.77rem;opacity:.7;margin-top:2px">Te contactaremos en menos de 24 horas.</p></div>`;
-  Object.assign(t.style, {
-    position: 'fixed', bottom: '1.5rem', right: '1.5rem',
-    background: '#0f172a', border: '1px solid rgba(79,142,247,0.4)',
-    borderRadius: '12px', padding: '1rem 1.4rem',
-    display: 'flex', alignItems: 'center', gap: '0.8rem',
-    color: '#f4f4f5', fontFamily: "'Space Grotesk', sans-serif",
-    zIndex: '9999', boxShadow: '0 8px 40px rgba(0,0,0,0.5)',
-    transform: 'translateY(20px)', opacity: '0',
-    transition: 'transform 0.4s cubic-bezier(0.22,1,0.36,1), opacity 0.4s',
-    maxWidth: '300px',
-  });
-  document.body.appendChild(t);
-  requestAnimationFrame(() => setTimeout(() => { t.style.transform='translateY(0)'; t.style.opacity='1'; }, 10));
-  setTimeout(() => { t.style.transform='translateY(20px)'; t.style.opacity='0'; setTimeout(()=>t.remove(),400); }, 4500);
+    .catch(() => {}) // No bloquear si Firestore falla
+    .finally(() => {
+      sendWhatsAppNotification(mfData); // Notificación a David
+      mfShowStep(MF_TOTAL);             // Mostrar pantalla de éxito
+      btn.textContent = 'Enviar solicitud →';
+      btn.disabled = false;
+    });
 }
 
 
